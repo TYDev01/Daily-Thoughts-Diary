@@ -28,4 +28,10 @@ contract Diary is IDiary, Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
     ) external view override returns (string memory) {
         return _latestCID(user);
     }
+
+    function getVolumeCount(
+        address user
+    ) external view override returns (uint256) {
+        return userVolumes[user].length;
+    }
 }
