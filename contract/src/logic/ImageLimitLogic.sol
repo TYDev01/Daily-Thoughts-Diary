@@ -11,5 +11,9 @@ abstract contract ImageLimitLogic is DiaryStorage {
         );
     }
 
-    function _incrementImageCount(address user, uint8 imagesAdded) internal;
+    function _incrementImageCount(address user, uint8 imagesAdded) internal {
+        if (!premiumUser[user] && imagesAdded > 0) {
+            freeImageUploadsUsed[user] += imagesAdded;
+        }
+    }
 }
