@@ -38,4 +38,14 @@ contract DiaryTest is Test {
         diary.appendDiary("cid-2", 1);
         vm.stopPrank();
     }
+
+    function testPremiumBypass() public {
+        diary.setPremium(alice, true);
+
+        vm.prank(alice);
+        diary.appendDiary("cid-1", 6);
+
+        assertEq(diary.freeImageUploadsUsed(alice), 0);
+        assertTrue(diary.premiumUser(alice));
+    }
 }
