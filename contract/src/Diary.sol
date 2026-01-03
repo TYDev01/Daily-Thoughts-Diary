@@ -25,7 +25,7 @@ contract Diary is Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
 
     function latestCID(
         address user
-    ) external view override returns (string memory) {
+    ) external view returns (string memory) {
         return _latestCID(user);
     }
 
