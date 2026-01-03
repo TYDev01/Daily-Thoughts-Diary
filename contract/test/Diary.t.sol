@@ -67,4 +67,10 @@ contract DiaryTest is Test {
         diary.appendDiary("cid-3", 0);
         assertEq(diary.lastRewardTimestamp(alice), 2 days + 1);
     }
+
+    function testOwnerAccessControl() public {
+        vm.prank(alice);
+        vm.expectRevert();
+        diary.setPremium(alice, true);
+    }
 }
