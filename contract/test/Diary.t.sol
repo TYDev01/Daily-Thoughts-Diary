@@ -73,4 +73,17 @@ contract DiaryTest is Test {
         vm.expectRevert();
         diary.setPremium(alice, true);
     }
+
+    function testModularLogicInteraction() public {
+        vm.warp(1 days);
+        vm.prank(alice);
+
+        vm.expectEmit(true, false, false, true);
+        emit DiaryUpdated(alice, "cid-1", 1 days);
+
+        vm.expectEmit(true, false, false, true);
+        emit RewardIssued(alice, 1 days);
+
+        diary.appendDiary("cid-1", 1);
+    }
 }
