@@ -7,6 +7,7 @@ import {IDiary} from "./interfaces/IDiary.sol";
 import {DiaryLogic} from "./logic/DiaryLogic.sol";
 import {ImageLimitLogic} from "./logic/ImageLimitLogic.sol";
 import {RewardLogic} from "./logic/RewardLogic.sol";
+import {DiaryVolume} from "./storage/DiaryStorage.sol";
 
 contract Diary is IDiary, Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
     event PremiumStatusChanged(address indexed user, bool isPremium);
@@ -41,5 +42,13 @@ contract Diary is IDiary, Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
     ) external view override returns (string memory cid, uint256 timestamp) {
         DiaryVolume storage volume = userVolumes[user][index];
         return (volume.cid, volume.timestamp);
+    }
+
+    function setPremium(
+        address user,
+        bool isPremium
+    ) external override onlyOwner {
+        premiumUser[user] = isPremium;
+        emit PremiumStatusChanged(user, isPremium);
     }
 }
