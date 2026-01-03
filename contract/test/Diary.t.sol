@@ -48,4 +48,23 @@ contract DiaryTest is Test {
         assertEq(diary.freeImageUploadsUsed(alice), 0);
         assertTrue(diary.premiumUser(alice));
     }
+
+    function testRewardTiming() public {
+        vm.warp(1 days);
+        vm.prank(alice);
+        diary.appendDiary("cid-1", 0);
+
+        uint256 firstReward = diary.lastRewardTimestamp(alice);
+        assertEq(firstReward, 1 days);
+
+        vm.warp(1 days + 1 hours);
+        vm.prank(alice);
+        diary.appendDiary("cid-2", 0);
+        assertEq(diary.lastRewardTimestamp(alice), firstReward);
+
+        vm.warp(2 days + 1);
+        vm.prank(alice);
+        diary.appendDiary("cid-3", 0);
+        assertEq(diary.lastRewardTimestamp(alice), 2 days + 1);
+    }
 }
