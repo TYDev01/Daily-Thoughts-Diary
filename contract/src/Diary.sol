@@ -34,4 +34,12 @@ contract Diary is IDiary, Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
     ) external view override returns (uint256) {
         return userVolumes[user].length;
     }
+
+    function getVolume(
+        address user,
+        uint256 index
+    ) external view override returns (string memory cid, uint256 timestamp) {
+        DiaryVolume storage volume = userVolumes[user][index];
+        return (volume.cid, volume.timestamp);
+    }
 }
