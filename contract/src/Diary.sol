@@ -22,4 +22,10 @@ contract Diary is IDiary, Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
         _incrementImageCount(msg.sender, imagesAdded);
         _rewardUser(msg.sender);
     }
+
+    function latestCID(
+        address user
+    ) external view override returns (string memory) {
+        return _latestCID(user);
+    }
 }
