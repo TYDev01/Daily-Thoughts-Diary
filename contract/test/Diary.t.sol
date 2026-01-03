@@ -12,4 +12,8 @@ contract DiaryTest is Test {
     Diary private diary;
     address private owner = address(this);
     address private alice = address(0xA11CE);
+
+    function setUp() public {
+        diary = new Diary(owner);
+    }
 }
