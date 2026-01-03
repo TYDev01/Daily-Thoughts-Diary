@@ -16,4 +16,16 @@ contract DiaryTest is Test {
     function setUp() public {
         diary = new Diary(owner);
     }
+
+    function testAppendDiaryStoresVolume() public {
+        vm.warp(1000);
+        vm.prank(alice);
+        diary.appendDiary("cid-1", 1);
+
+        assertEq(diary.getVolumeCount(alice), 1);
+
+        (string memory cid, uint256 timestamp) = diary.getVolume(alice, 0);
+        assertEq(cid, "cid-1");
+        assertEq(timestamp, 1000);
+    }
 }
