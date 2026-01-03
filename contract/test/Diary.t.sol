@@ -28,4 +28,14 @@ contract DiaryTest is Test {
         assertEq(cid, "cid-1");
         assertEq(timestamp, 1000);
     }
+
+    function testImageLimitEnforcement() public {
+        vm.warp(1000);
+        vm.startPrank(alice);
+        diary.appendDiary("cid-1", 5);
+
+        vm.expectRevert(bytes("Free image limit reached"));
+        diary.appendDiary("cid-2", 1);
+        vm.stopPrank();
+    }
 }
