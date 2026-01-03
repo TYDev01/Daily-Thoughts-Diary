@@ -46,7 +46,7 @@ contract Diary is Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
     function setPremium(
         address user,
         bool isPremium
-    ) external override onlyOwner {
+    ) external onlyOwner {
         premiumUser[user] = isPremium;
         emit PremiumStatusChanged(user, isPremium);
     }
