@@ -31,7 +31,7 @@ contract Diary is Ownable, DiaryLogic, ImageLimitLogic, RewardLogic {
 
     function getVolumeCount(
         address user
-    ) external view override returns (uint256) {
+    ) external view returns (uint256) {
         return userVolumes[user].length;
     }
 
