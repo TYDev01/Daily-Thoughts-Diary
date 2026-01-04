@@ -1,66 +1,63 @@
-## Foundry
+## ChainDiary Contracts (Foundry)
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+Modular smart contracts for an on-chain diary on Base. The system separates
+storage and logic for clarity and auditability.
 
-Foundry consists of:
+## Structure
 
-- **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
-- **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
-- **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
-- **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+src/Diary.sol  
+src/storage/DiaryStorage.sol  
+src/logic/DiaryLogic.sol  
+src/logic/RewardLogic.sol  
+src/logic/ImageLimitLogic.sol  
+src/interfaces/IDiary.sol  
 
-## Documentation
+## Requirements
 
-https://book.getfoundry.sh/
+- Foundry
+- OpenZeppelin Contracts in `lib/openzeppelin-contracts`
 
-## Usage
-
-### Build
+If you need to install OpenZeppelin:
 
 ```shell
-$ forge build
+forge install OpenZeppelin/openzeppelin-contracts
 ```
 
-### Test
+## Build
 
 ```shell
-$ forge test
+forge build
 ```
 
-### Format
+## Test
 
 ```shell
-$ forge fmt
+forge test
 ```
 
-### Gas Snapshots
+## Deploy (Base Sepolia)
 
-```shell
-$ forge snapshot
+Create `contract/.env` with:
+
+```
+PRIVATE_KEY=...
+BASE_SEPOLIA_RPC_URL=...
+ETHERSCAN_API_KEY=...
 ```
 
-### Anvil
+Deploy using the script:
 
 ```shell
-$ anvil
+source .env
+forge script script/DiaryDeploy.s.sol:DiaryDeploy --rpc-url "$BASE_SEPOLIA_RPC_URL" --broadcast
 ```
 
-### Deploy
+## Verify (Base Sepolia)
+
+Constructor args use the deployer address as owner.
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+source .env
+cast abi-encode "constructor(address)" <deployer_address>
+forge verify-contract --chain base-sepolia --etherscan-api-key "$ETHERSCAN_API_KEY" --constructor-args <encoded_args> <deployed_address> src/Diary.sol:Diary --watch
 ```
