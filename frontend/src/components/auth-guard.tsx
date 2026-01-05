@@ -1,5 +1,6 @@
 "use client";
 
+import { useUser } from "@thirdweb-dev/react";
 import { useRouter } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { useEffect } from "react";
@@ -9,14 +10,15 @@ import { useAppStore } from "@/store/useAppStore";
 export default function AuthGuard({ children }: PropsWithChildren) {
   const router = useRouter();
   const user = useAppStore((state) => state.user);
+  const { isLoggedIn, isLoading } = useUser();
 
   useEffect(() => {
-    if (!user.isAuthenticated) {
+    if (!isLoading && !isLoggedIn && !user.isAuthenticated) {
       router.replace("/");
     }
-  }, [router, user.isAuthenticated]);
+  }, [router, user.isAuthenticated, isLoading, isLoggedIn]);
 
-  if (!user.isAuthenticated) {
+  if (isLoading || (!user.isAuthenticated && isLoggedIn)) {
     return (
       <div className="min-h-screen px-6 pb-16 pt-8 sm:px-10">
         <div className="mx-auto flex w-full max-w-3xl flex-col gap-4">
