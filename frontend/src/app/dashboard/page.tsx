@@ -40,9 +40,11 @@ export default function DashboardPage() {
     return Math.max(1, Math.floor(days));
   }, [user.lastRewardTimestamp]);
 
+  const now = Date.now();
   const nextRewardAt = user.lastRewardTimestamp
     ? user.lastRewardTimestamp * 1000 + 1000 * 60 * 60 * 24
-    : Date.now();
+    : now;
+  const rewardAvailable = !user.lastRewardTimestamp || now >= nextRewardAt;
 
   const rewardProgress = useMemo(() => {
     if (!user.lastRewardTimestamp) {
@@ -91,7 +93,7 @@ export default function DashboardPage() {
                   Next reward
                 </p>
                 <p className="mt-2 text-lg font-semibold">
-                  {formatDate(nextRewardAt)}
+                  {rewardAvailable ? "Available now" : formatDate(nextRewardAt)}
                 </p>
                 <Progress className="mt-3 h-2" value={rewardProgress} />
               </div>
