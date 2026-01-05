@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Fraunces, Space_Grotesk } from "next/font/google";
 import "./globals.css";
-import ThirdwebProviderWrapper from "@/providers/thirdweb-provider";
 import { Toaster } from "@/components/ui/sonner";
+import AppShell from "@/providers/app-shell";
+import ThirdwebProviderWrapper from "@/providers/thirdweb-provider";
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -28,7 +29,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${spaceGrotesk.variable} ${fraunces.variable} antialiased`}>
         <ThirdwebProviderWrapper>
-          {children}
+          <AppShell>{children}</AppShell>
           <Toaster richColors />
         </ThirdwebProviderWrapper>
       </body>
