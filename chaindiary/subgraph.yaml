@@ -1,0 +1,35 @@
+specVersion: 1.3.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Diary
+    network: base-sepolia
+    source:
+      address: "0xDEF0E3092589A4Ba2402a1F6d70CBcF239A33bE5"
+      abi: Diary
+      startBlock: 35877739
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.9
+      language: wasm/assemblyscript
+      entities:
+        - DiaryUpdated
+        - OwnershipTransferred
+        - PremiumStatusChanged
+        - RewardIssued
+      abis:
+        - name: Diary
+          file: ./abis/Diary.json
+      eventHandlers:
+        - event: DiaryUpdated(indexed address,string,uint256)
+          handler: handleDiaryUpdated
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: PremiumStatusChanged(indexed address,bool)
+          handler: handlePremiumStatusChanged
+        - event: RewardIssued(indexed address,uint256)
+          handler: handleRewardIssued
+      file: ./src/diary.ts
