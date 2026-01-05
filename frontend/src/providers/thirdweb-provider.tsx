@@ -1,6 +1,6 @@
 "use client";
 
-import { Base, BaseSepolia } from "@thirdweb-dev/chains";
+import { Base, BaseSepoliaTestnet } from "@thirdweb-dev/chains";
 import {
   ThirdwebProvider,
   coinbaseWallet,
@@ -40,8 +40,8 @@ export default function ThirdwebProviderWrapper({
   return (
     <ThirdwebProvider
       clientId={env.thirdwebClientId}
-      activeChain={BaseSepolia}
-      supportedChains={[Base, BaseSepolia]}
+      activeChain={BaseSepoliaTestnet}
+      supportedChains={[Base, BaseSepoliaTestnet]}
       supportedWallets={[
         smartEmbeddedWallet,
         smartFrameWallet,

@@ -1,5 +1,4 @@
-const requiredEnv = (key: string) => {
-  const value = process.env[key];
+const requiredEnv = (value: string | undefined, key: string) => {
   if (!value) {
     throw new Error(`Missing environment variable: ${key}`);
   }
@@ -7,8 +6,20 @@ const requiredEnv = (key: string) => {
 };
 
 export const env = {
-  thirdwebClientId: requiredEnv("NEXT_PUBLIC_THIRDWEB_CLIENT_ID"),
-  graphEndpoint: requiredEnv("NEXT_PUBLIC_GRAPH_ENDPOINT"),
-  backendUrl: requiredEnv("NEXT_PUBLIC_BACKEND_URL"),
-  ipfsGateway: requiredEnv("NEXT_PUBLIC_IPFS_GATEWAY"),
+  thirdwebClientId: requiredEnv(
+    process.env.NEXT_PUBLIC_THIRDWEB_CLIENT_ID,
+    "NEXT_PUBLIC_THIRDWEB_CLIENT_ID",
+  ),
+  graphEndpoint: requiredEnv(
+    process.env.NEXT_PUBLIC_GRAPH_ENDPOINT,
+    "NEXT_PUBLIC_GRAPH_ENDPOINT",
+  ),
+  backendUrl: requiredEnv(
+    process.env.NEXT_PUBLIC_BACKEND_URL,
+    "NEXT_PUBLIC_BACKEND_URL",
+  ),
+  ipfsGateway: requiredEnv(
+    process.env.NEXT_PUBLIC_IPFS_GATEWAY,
+    "NEXT_PUBLIC_IPFS_GATEWAY",
+  ),
 };
