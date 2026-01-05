@@ -61,6 +61,22 @@ export default function Home() {
           </div>
         </Card>
 
+        <Card className="border border-border/60 bg-white/70 p-5">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h3 className="text-lg font-semibold">Farcaster ready</h3>
+              <p className="text-sm text-muted-foreground">
+                Launch in Warpcast when your frame handshake is live.
+              </p>
+            </div>
+            <Button asChild variant="secondary" className="h-11 rounded-full px-6">
+              <a href="https://warpcast.com/~/apps" target="_blank" rel="noreferrer">
+                Open in Warpcast
+              </a>
+            </Button>
+          </div>
+        </Card>
+
         <section className="grid gap-6 md:grid-cols-3">
           {[
             {
