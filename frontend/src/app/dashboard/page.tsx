@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import IpfsImage from "@/components/ipfs-image";
+import { useDiaryTimeline } from "@/hooks/useDiaryTimeline";
 import { useAppStore } from "@/store/useAppStore";
 
 type Entry = {
@@ -15,21 +17,6 @@ type Entry = {
   images?: string[] | null;
   timestamp?: string | number | null;
 };
-
-const mockEntries: Entry[] = [
-  {
-    id: "1",
-    text: "Today felt lighter after the rain. I wrote under the kitchen lamp.",
-    images: ["ipfs://bafybeiabc123"],
-    timestamp: Date.now() - 1000 * 60 * 60 * 6,
-  },
-  {
-    id: "2",
-    text: "Marked the calendar for the next reward drop. Journaling kept me grounded.",
-    images: [],
-    timestamp: Date.now() - 1000 * 60 * 60 * 28,
-  },
-];
 
 const formatDate = (value?: string | number | null) => {
   if (!value) return "—";
@@ -43,6 +30,7 @@ const formatDate = (value?: string | number | null) => {
 
 export default function DashboardPage() {
   const user = useAppStore((state) => state.user);
+  const { entries, loading, error } = useDiaryTimeline(user.address);
 
   const streak = useMemo(() => {
     if (!user.lastRewardTimestamp) return 0;
@@ -114,7 +102,24 @@ export default function DashboardPage() {
         </section>
 
         <section className="grid gap-6">
-          {mockEntries.map((entry) => (
+          {loading ? (
+            <Card className="border border-border/60 bg-white/80 p-5">
+              <p className="text-sm text-muted-foreground">Loading entries...</p>
+            </Card>
+          ) : null}
+          {error ? (
+            <Card className="border border-border/60 bg-white/80 p-5">
+              <p className="text-sm text-muted-foreground">{error}</p>
+            </Card>
+          ) : null}
+          {!loading && !entries.length ? (
+            <Card className="border border-border/60 bg-white/80 p-5">
+              <p className="text-sm text-muted-foreground">
+                No entries yet. Start your first note today.
+              </p>
+            </Card>
+          ) : null}
+          {entries.map((entry) => (
             <Card key={entry.id} className="border border-border/60 bg-white/80 p-5">
               <div className="flex flex-col gap-3">
                 <div className="flex items-center justify-between">
@@ -131,8 +136,15 @@ export default function DashboardPage() {
                     {entry.images.map((cid) => (
                       <div
                         key={cid}
-                        className="h-24 w-32 flex-none rounded-xl bg-muted/40"
-                      />
+                        className="relative h-24 w-32 flex-none overflow-hidden rounded-xl bg-muted/40"
+                      >
+                        <IpfsImage
+                          cid={cid}
+                          alt="Diary entry image"
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
                     ))}
                   </div>
                 ) : null}
