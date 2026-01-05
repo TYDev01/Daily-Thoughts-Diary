@@ -5,6 +5,7 @@ import {
   ThirdwebProvider,
   coinbaseWallet,
   embeddedWallet,
+  frameWallet,
   metamaskWallet,
   smartWallet,
   walletConnect,
@@ -38,6 +39,7 @@ export default function ThirdwebProviderWrapper({
       supportedChains={[Base, BaseSepolia]}
       supportedWallets={[
         smartEmbeddedWallet,
+        frameWallet(),
         metamaskWallet(),
         coinbaseWallet(),
         walletConnect(),
