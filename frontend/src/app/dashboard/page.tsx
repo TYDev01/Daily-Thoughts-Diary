@@ -44,9 +44,12 @@ export default function DashboardPage() {
     : Date.now();
 
   const rewardProgress = useMemo(() => {
+    if (!user.lastRewardTimestamp) {
+      return 0;
+    }
     const total = 1000 * 60 * 60 * 24;
     const elapsed = Math.min(Date.now() - user.lastRewardTimestamp * 1000, total);
-    return user.lastRewardTimestamp ? Math.round((elapsed / total) * 100) : 0;
+    return Math.round((elapsed / total) * 100);
   }, [user.lastRewardTimestamp]);
 
   return (
@@ -130,7 +133,9 @@ export default function DashboardPage() {
                     {entry.images?.length ? `${entry.images.length} images` : "Text only"}
                   </Badge>
                 </div>
-                <p className="text-base leading-7">{entry.text}</p>
+                <p className="text-base leading-7">
+                  {entry.text ?? "Entry stored on IPFS."}
+                </p>
                 {entry.images?.length ? (
                   <div className="flex gap-3 overflow-x-auto pb-1">
                     {entry.images.map((cid) => (

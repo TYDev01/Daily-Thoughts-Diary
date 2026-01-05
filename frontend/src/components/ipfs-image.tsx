@@ -36,6 +36,7 @@ export default function IpfsImage({
       width={width}
       height={height}
       loading="lazy"
+      unoptimized
       onError={() => {
         if (index < fallbacks.length - 1) {
           setIndex(index + 1);

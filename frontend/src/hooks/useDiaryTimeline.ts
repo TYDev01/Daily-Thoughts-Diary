@@ -42,7 +42,16 @@ export const useDiaryTimeline = (userAddress?: string | null) => {
           return;
         }
 
-        const timeline = (data.entries ?? []).sort((a, b) => {
+        const volumeEntries =
+          data.volumes?.map((volume) => ({
+            id: volume.id,
+            cid: volume.cid,
+            timestamp: volume.timestamp,
+            text: null,
+            images: [],
+          })) ?? [];
+
+        const timeline = [...(data.entries ?? []), ...volumeEntries].sort((a, b) => {
           return Number(b.timestamp ?? 0) - Number(a.timestamp ?? 0);
         });
 
