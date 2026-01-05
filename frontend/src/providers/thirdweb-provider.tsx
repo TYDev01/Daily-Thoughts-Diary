@@ -26,6 +26,11 @@ const smartEmbeddedWallet = smartWallet(
   },
 );
 
+const smartMetamaskWallet = smartWallet(metamaskWallet(), { gasless: true });
+const smartCoinbaseWallet = smartWallet(coinbaseWallet(), { gasless: true });
+const smartWalletConnect = smartWallet(walletConnect(), { gasless: true });
+const smartFrameWallet = smartWallet(frameWallet(), { gasless: true });
+
 export default function ThirdwebProviderWrapper({
   children,
 }: PropsWithChildren) {
@@ -39,10 +44,10 @@ export default function ThirdwebProviderWrapper({
       supportedChains={[Base, BaseSepolia]}
       supportedWallets={[
         smartEmbeddedWallet,
-        frameWallet(),
-        metamaskWallet(),
-        coinbaseWallet(),
-        walletConnect(),
+        smartFrameWallet,
+        smartMetamaskWallet,
+        smartCoinbaseWallet,
+        smartWalletConnect,
       ]}
       authConfig={{
         domain,

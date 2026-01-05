@@ -46,6 +46,10 @@ export default function NewEntryPage() {
     if (!incoming) return;
     const next = Array.from(incoming);
     const limited = user.premium ? next : next.slice(0, availableFreeUploads);
+    if (!user.premium && next.length > availableFreeUploads) {
+      toast.error("Image limit reached. Upgrade to premium for more uploads.");
+    }
+    previews.forEach((preview) => URL.revokeObjectURL(preview));
     setFiles(limited);
     setPreviews(limited.map((file) => URL.createObjectURL(file)));
   };
