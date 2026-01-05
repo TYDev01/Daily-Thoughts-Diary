@@ -1,0 +1,8 @@
+{
+  "base-sepolia": {
+    "Diary": {
+      "address": "0xDEF0E3092589A4Ba2402a1F6d70CBcF239A33bE5",
+      "startBlock": 35877739
+    }
+  }
+}
