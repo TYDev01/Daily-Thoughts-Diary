@@ -88,9 +88,17 @@ export default function NewEntryPage() {
       toast.success("Entry saved. See you tomorrow.");
       router.push("/dashboard");
     } catch (error) {
-      toast.error(
-        error instanceof Error ? error.message : "Unable to save your entry",
-      );
+      const message =
+        error instanceof Error ? error.message : "Unable to save your entry";
+      if (message.toLowerCase().includes("cooldown")) {
+        toast.error("Daily reward cooldown active. Try again tomorrow.");
+        return;
+      }
+      if (message.toLowerCase().includes("image limit")) {
+        toast.error("Image limit reached. Upgrade to premium for more uploads.");
+        return;
+      }
+      toast.error(message);
     } finally {
       setSubmitting(false);
     }
