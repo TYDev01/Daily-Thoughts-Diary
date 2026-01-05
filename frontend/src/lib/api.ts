@@ -21,6 +21,7 @@ export const apiFetch = async <T>(
   const isFormData = options?.body instanceof FormData;
   const response = await fetch(`${env.backendUrl}${path}`, {
     ...options,
+    credentials: "include",
     headers: {
       ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...options?.headers,
